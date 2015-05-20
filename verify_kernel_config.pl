@@ -21,9 +21,12 @@
 use Text::ParseWords;
 use strict;
 use Term::ANSIColor;
+use File::Spec;
+use File::Basename;
 
 my $debug = 0;
 my %config;
+my $config_dir = dirname(File::Spec->rel2abs(__FILE__));
 
 # Parse input argument
 my $type = shift;
@@ -33,12 +36,12 @@ if($type and $file) {
     print "\n";
 } else {
     print "Usage: ./verify_kernel_config.pl <type> <kernel config>\n";
-    print "types: lxc nfs-rootfs\n";
+    print "types: lxc nfs-rootfs systemd\n";
     exit;
 }
 
 # Read according to check type
-my $input = "configs/$type.conf";
+my $input = "$config_dir/configs/$type.conf";
 open (my $DATA, "<", $input) || die "Error: type $type does not exist!";
 
 while (<$DATA>) {
